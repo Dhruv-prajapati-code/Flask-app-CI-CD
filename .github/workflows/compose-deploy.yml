@@ -1,0 +1,18 @@
+name: docker-compose-deploy
+on:
+    workflow_call:
+
+jobs:
+    docker-compose:
+        env:
+            user: ${{vars.DOCKERHUB_USER}}
+            pass: ${{secrets.DOCKERHUB_PASS}}
+            commit: ${{ github.sha }}
+        runs-on: self-host
+
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v6
+            
+            - name: docker compose
+              run: docker compose down && docker compose up 

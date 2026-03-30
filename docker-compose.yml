@@ -1,0 +1,5 @@
+services:
+  flaskapp:
+    image: ${user}/flask_gitactions:${commit}
+    ports: 
+      - "5000:5000"
