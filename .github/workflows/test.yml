@@ -72,7 +72,7 @@ jobs:
                 severity: 'CRITICAL,HIGH'
 
     docker-compose:
-        uses: ./.github/workflows/compose-deploy.yml@main
+        uses: ./.github/workflows/compose-deploy.yml
 
               
 
