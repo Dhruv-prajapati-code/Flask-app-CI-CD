@@ -34,6 +34,8 @@ jobs:
         env:
             user: ${{vars.DOCKERHUB_USER}}
             pass: ${{secrets.DOCKERHUB_PASS}}
+            commit: ${{ github.sha }}
+
         runs-on: ubuntu-latest
         steps:
             - name: code checkout
@@ -44,6 +46,7 @@ jobs:
               with:
                 username: ${{env.user}}
                 password: ${{env.pass}}
+                
 
             - name: setup QEMU
               uses: docker/setup-qemu-action@v4
@@ -56,19 +59,20 @@ jobs:
               with:
                 context: .
                 push: true
-                tags: ${{env.user}}/flask_gitactions:${{ github.sha}}
+                tags: ${{env.user}}/flask_gitactions:${{ env.commit }}
             
             - name: trivy scan 
               uses: aquasecurity/trivy-action@0.35.0
               with:
-                image-ref: ${{env.user}}/flask_gitactions:${{ github.sha }}
+                image-ref: ${{env.user}}/flask_gitactions:${{ env.commit }}
                 format: 'table'
                 exit-code: '1'
                 ignore-unfixed: true
                 vuln-type: 'os,library'
                 severity: 'CRITICAL,HIGH'
 
-
+    docker-compose:
+        uses: .github/workflows/compose-deploy.yml@main
 
               
 
