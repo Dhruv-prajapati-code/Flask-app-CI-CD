@@ -8,8 +8,21 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - name: say hello to dosto
-            run: echo "hello dosto0"
+          - name: checkout code
+            uses: actions/checkoutcode@v6
+
+          - name: setup python
+            uses: actions/setup-python@v6
+            with:
+                python-version: "3.13"
+
+          - name: install dependencies
+            run: pip install -r requirements.txt
+
+          - name: run lint test
+            run: flake8 app.py
+        
+
               
 
 
