@@ -1,7 +1,7 @@
 name: workflow_name
 
 on:
-    workflow_call:
+    workflow_dispatch:
 
 jobs:
     test_hello:
