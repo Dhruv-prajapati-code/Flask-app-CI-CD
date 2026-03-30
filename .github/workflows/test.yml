@@ -30,6 +30,7 @@ jobs:
             run: flake8 app.py
         
     docker:
+        needs: [code-test]
         env:
             user: ${{vars.DOCKERHUB_USER}}
             pass: ${{secrets.DOCKERHUB_PASS}}
@@ -58,7 +59,7 @@ jobs:
                 tags: ${{env.user}}/flask_gitactions:$GITHUB_SHA
             
             - name: trivy scan 
-              uses: aquasecurity/trivy-action@0.33.1
+              uses: aquasecurity/trivy-action@0.35.0
               with:
                 image-ref: ${{env.user}}/flask_gitactions:$GITHUB_SHA
                 format: 'table'
