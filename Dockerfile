@@ -6,7 +6,7 @@ COPY requirements.txt .
 
 RUN apt-get update && apt-get -y install --no-install-recommends
 
-RUN pip install pip install --no-cache-dir  -r requirements.txt --target /app/libraries
+RUN pip install --no-cache-dir  -r requirements.txt --target /app/libraries
 
 COPY . .
 
