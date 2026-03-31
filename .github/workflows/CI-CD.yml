@@ -7,20 +7,25 @@ jobs:
 
   code-quality:
     uses: ./.github/workflows/1-code-quality.yml
+    secrets: inherit
 
   secrets-scan:
     uses: ./.github/workflows/2-secret-scan.yml
   
   dependency-scan:
     uses: ./.github/workflows/3-dependency-scan.yml
+    secrets: inherit
   
   docker-lint:
     uses: ./.github/workflows/4-docker-lint.yml
+    secrets: inherit
   
   docker-build-push:
     needs: [code-quality,secrets-scan,dependency-scan,docker-lint]
     uses: ./.github/workflows/5-docker-build-push.yml
+    secrets: inherit
   
   trivy-test:
     needs: [docker-build-push]
     uses: ./.github/workflows/6-trivy-image-scan.yml
+    secrets: inherit
