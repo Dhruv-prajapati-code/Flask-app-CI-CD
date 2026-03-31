@@ -1,0 +1,22 @@
+name: trivy scan
+
+on:
+    workflow_call:
+
+jobs:
+    trivy:
+        runs-on: ubuntu-latest
+        env:
+            user: ${{vars.DOCKERHUB_USER}}
+            pass: ${{secrets.DOCKERHUB_PASS}}
+            commit: ${{ github.sha }}
+        steps:
+            - name: trivy
+              uses: aquasecurity/trivy-action@v0.35.0
+              with:
+                image-ref: '${{env.user}}/flask_gitactions:${{ env.commit }}'
+                format: 'table'
+                exit-code: '1'
+                ignore-unfixed: true
+                vuln-type: 'os,library'
+                severity: 'CRITICAL,HIGH'

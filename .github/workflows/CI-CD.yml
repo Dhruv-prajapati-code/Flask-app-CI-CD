@@ -1,0 +1,26 @@
+name: CI-CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  code-quality:
+    uses: ./.github/workflows/1-code-quality.yml
+
+  secrets-scan:
+    uses: ./.github/workflows/2-secret-scan.yml
+  
+  dependency-scan:
+    uses: ./.github/workflows/3-dependency-scan.yml
+  
+  docker-lint:
+    uses: ./.github/workflows/4-docker-lint.yml
+  
+  docker-build-push:
+    needs: [code-quality,secrets-scan,dependency-scan,docker-lint]
+    uses: ./.github/workflows/5-docker-build-push.yml
+  
+  trivy-test:
+    needs: [docker-build-push]
+    uses: ./.github/workflows/6-trivy-image-scan.yml

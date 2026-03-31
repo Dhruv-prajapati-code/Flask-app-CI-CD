@@ -1,0 +1,21 @@
+name: docker-lint-test
+
+on:
+    workflow_call:
+jobs:
+    hadolint:
+        runs-on: ubuntu-latest
+        env:
+            user: ${{vars.DOCKERHUB_USER}}
+            pass: ${{secrets.DOCKERHUB_PASS}}
+            commit: ${{ github.sha }}
+
+        steps:
+            - name: checkout-code
+              uses: actions/checkout@v6
+            
+            - name: hadolint
+              uses: hadolint/hadolint-action@v3.3.0
+              with:
+                dockerfile: Dockerfile
+            
